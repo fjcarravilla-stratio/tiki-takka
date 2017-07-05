@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{ShouldMatchers, WordSpec}
 import play.api.libs.json._
-
 import com.stratio.tikitakka.common.model.marathon._
 
 @RunWith(classOf[JUnitRunner])
@@ -61,7 +60,7 @@ class MarathonApplicationUnitTest extends WordSpec with ShouldMatchers {
           cpus = 0.2,
           mem = 100,
           instances = Option(1),
-          env = Some(Map()),
+          env = Option(Map("foo" -> JsString("var"), "APPROLE" -> JsObject(Map("secret" -> JsString("role"))))),
           container =
             MarathonContainer(
               docker = Docker(
@@ -79,6 +78,7 @@ class MarathonApplicationUnitTest extends WordSpec with ShouldMatchers {
           labels = Map("tag" -> "tag1,tag2"),
           ports= Option(Seq(0)),
           constraints = Some(Seq(Seq("constraint"))),
+          secrets = Map("role" -> Map("foo" -> "var")),
           ipAddress = Option(IpAddress(
             Option("some_network"),
             Option(DiscoveryInfo(Seq(PortAddressDefinition(0, "some_port", "tcp"))))))

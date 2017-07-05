@@ -27,7 +27,7 @@ case class MarathonApplication(id: String,
                                instances: Option[Int] = None,
                                user: Option[String] = None,
                                args: Option[List[String]] = None,
-                               env: Option[Map[String, String]] = None,
+                               env: Option[Map[String, JsValue]] = None,
                                container: MarathonContainer,
                                cmd: Option[String] = None,
                                portDefinitions: Option[Seq[MarathonPortDefinition]] = None,
@@ -36,7 +36,9 @@ case class MarathonApplication(id: String,
                                labels: Map[String, String] = Map.empty[String, String],
                                ports: Option[Seq[Int]] = None,
                                constraints: Option[Seq[Seq[String]]] = None,
-                               ipAddress: Option[IpAddress] = None) extends Container {
+                               ipAddress: Option[IpAddress] = None,
+                               secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]]
+                              ) extends Container {
 }
 
 object MarathonApplication {
@@ -97,7 +99,8 @@ object MarathonApplication {
       labels = buildApp.labels,
       ports = buildApp.ports,
       constraints = buildApp.constraints,
-      ipAddress = buildApp.ipAddress
+      ipAddress = buildApp.ipAddress,
+      secrets = buildApp.secrets
     )
 
   def fromJson(id: String,
@@ -106,7 +109,7 @@ object MarathonApplication {
                instances: Option[Int],
                user: Option[String],
                args: Option[List[String]],
-               env: Option[Map[String, String]],
+               env: Option[Map[String, JsValue]],
                container: MarathonContainer,
                cmd: Option[String],
                portDefinitions: Option[Seq[MarathonPortDefinition]],
@@ -115,7 +118,9 @@ object MarathonApplication {
                labels: Map[String, String],
                ports: Option[Seq[Int]],
                constraints: Option[Seq[Seq[String]]],
-               ipAddress: Option[IpAddress] = None) =
+               ipAddress: Option[IpAddress] = None,
+               secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]]
+              ) =
     MarathonApplication(
       id = id.replaceFirst("^/", ""),
       cpus = cpus,
@@ -132,7 +137,8 @@ object MarathonApplication {
       labels = labels,
       ports = ports,
       constraints = constraints,
-      ipAddress = ipAddress
+      ipAddress = ipAddress,
+      secrets = secrets
     )
 
   // Literals
@@ -152,6 +158,7 @@ object MarathonApplication {
   val portsLiteral = "ports"
   val constraintsLiteral = "constraints"
   val ipAddressLiteral = "ipAddress"
+  val secretsLiteral = "secrets"
 
   //Fixed Values
   val TcpValue = "tcp"
@@ -165,7 +172,7 @@ object MarathonApplication {
       (__ \ instancesLiteral).readNullable[Int] and
       (__ \ userLiteral).readNullable[String] and
       (__ \ argsLiteral).readNullable[List[String]] and
-      (__ \ envLiteral).readNullable[Map[String, String]] and
+      (__ \ envLiteral).readNullable[Map[String, JsValue]] and
       (__ \ containerLiteral).read[MarathonContainer] and
       (__ \ cmdLiteral).readNullable[String] and
       (__ \ portDefinitionsLiteral).readNullable[Seq[MarathonPortDefinition]] and
@@ -174,7 +181,8 @@ object MarathonApplication {
       (__ \ labelsLiteral).read[Map[String, String]] and
       (__ \ portsLiteral).readNullable[Seq[Int]] and
       (__ \ constraintsLiteral).readNullable[Seq[Seq[String]]] and
-      (__ \ ipAddressLiteral).readNullable[IpAddress]
+      (__ \ ipAddressLiteral).readNullable[IpAddress] and
+      (__ \ secretsLiteral).read[Map[String, Map[String, String]]]
     ) (MarathonApplication.fromJson _)
 }
 

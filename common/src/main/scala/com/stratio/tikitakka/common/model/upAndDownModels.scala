@@ -16,9 +16,7 @@
 
 package com.stratio.tikitakka.common.model
 
-import play.api.libs.json.Json
-import play.api.libs.json.Reads
-import play.api.libs.json.Writes
+import play.api.libs.json.{JsValue, Json, Reads, Writes}
 
 trait Container
 
@@ -28,7 +26,7 @@ case class CreateApp(id: String,
                      instances: Option[Int] = None,
                      user: Option[String] = None,
                      args: Option[List[String]] = None,
-                     env: Option[Map[String, String]] = None,
+                     env: Option[Map[String, JsValue]] = None,
                      container: ContainerInfo,
                      cmd: Option[String] = None,
                      portDefinitions: Option[Seq[PortDefinition]] = None,
@@ -37,7 +35,8 @@ case class CreateApp(id: String,
                      labels: Map[String, String] = Map.empty[String, String],
                      ports: Option[Seq[Int]] = None,
                      constraints: Option[Seq[Seq[String]]] = None,
-                     ipAddress: Option[IpAddress] = None
+                     ipAddress: Option[IpAddress] = None,
+                     secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]]
                     ) extends Container
 
 case class ContainerId(id: String)

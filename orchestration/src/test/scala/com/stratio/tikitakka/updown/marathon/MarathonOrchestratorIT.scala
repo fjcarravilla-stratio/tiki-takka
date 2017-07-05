@@ -26,10 +26,7 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Try
-import com.stratio.tikitakka.common.model.ContainerId
-import com.stratio.tikitakka.common.model.CreateApp
-import com.stratio.tikitakka.common.model.ContainerInfo
-import com.stratio.tikitakka.common.model.DockerContainerInfo
+import com.stratio.tikitakka.common.model.{ContainerId, ContainerInfo, CreateApp, DockerContainerInfo}
 import com.stratio.tikitakka.common.model.marathon.MarathonApplication
 
 @RunWith(classOf[JUnitRunner])
@@ -59,7 +56,8 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
           portDefinitions = None,
           requirePorts = None,
           healthChecks = None,
-          labels = Map.empty[String, String]
+          labels = Map.empty[String, String],
+          secrets = Map.empty[String, Map[String, String]]
         )
       val testResult = Try{
         val result: Future[ContainerId] = upApplication(application, None)
@@ -86,7 +84,8 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
         portDefinitions = None,
         requirePorts = None,
         healthChecks = None,
-        labels = Map.empty[String, String]
+        labels = Map.empty[String, String],
+        secrets = Map.empty[String, Map[String, String]]
       )
     an[ResponseException] should be thrownBy Await.result(upApplication(application, None), timeout)
   }
@@ -106,7 +105,8 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
         portDefinitions = None,
         requirePorts = None,
         healthChecks = None,
-        labels = Map.empty[String, String]
+        labels = Map.empty[String, String],
+        secrets = Map.empty[String, Map[String, String]]
       ))
 
     val result: Future[ContainerId] =
