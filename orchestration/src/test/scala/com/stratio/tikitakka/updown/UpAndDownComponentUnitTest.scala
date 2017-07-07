@@ -42,12 +42,14 @@ class UpAndDownComponentUnitTest extends WordSpec with ShouldMatchers {
 
     }
     "can down a component" in new DummyUpAndDownComponent with ImplicitsValues {
-      Await.result(downApplication(ContainerId(validBuild.id)), timeout) shouldBe (right = ContainerId(validBuild.id))
+      Await.result(
+        downApplication(ContainerId(validBuild.id), None), timeout) shouldBe (right = ContainerId(validBuild.id))
     }
 
     "cannot down a component if this is not correct" in new DummyUpAndDownComponent with ImplicitsValues {
       val component = "invalidBuild"
-      an[ResponseException] should be thrownBy Await.result(downApplication(ContainerId(invalidBuild.id)), timeout)
+      an[ResponseException] should be thrownBy Await.result(
+        downApplication(ContainerId(invalidBuild.id), None), timeout)
     }
 
   }

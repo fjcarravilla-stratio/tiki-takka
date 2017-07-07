@@ -46,12 +46,12 @@ trait DummyUpAndDownComponent extends UpAndDownComponent {
       container = ContainerInfo(DockerContainerInfo("containerId")),
       labels = Map.empty[String, String])
 
-  def upApplication(application: CreateApp,  ssoToken: Option[HttpCookie]): Future[ContainerId] = Future {
+  def upApplication(application: CreateApp, ssoToken: Option[HttpCookie]): Future[ContainerId] = Future {
     if (application == validBuild) ContainerId(validBuild.id)
     else throw ResponseException("Error when up", new Exception)
   }
 
-  def downApplication(application: ContainerId): Future[ContainerId] = Future {
+  def downApplication(application: ContainerId, ssoToken: Option[HttpCookie]): Future[ContainerId] = Future {
     if (application.id == validBuild.id) ContainerId(validBuild.id)
     else throw ResponseException("Error when down", new Exception)
   }

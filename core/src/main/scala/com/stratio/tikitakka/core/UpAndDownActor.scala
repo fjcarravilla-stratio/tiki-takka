@@ -37,8 +37,8 @@ class UpAndDownActor(service: UpAndDownComponent) extends Actor with ActorLoggin
         }
         .pipeTo(sender)
 
-    case DownServiceRequest(appInfo) =>
-      service.downApplication(appInfo)
+    case DownServiceRequest(appInfo, ssoToken) =>
+      service.downApplication(appInfo, ssoToken)
         .map(DownServiceResponse)
         .recover { case (ex: Throwable) =>
           DownServiceFails(appInfo, ex.getMessage)

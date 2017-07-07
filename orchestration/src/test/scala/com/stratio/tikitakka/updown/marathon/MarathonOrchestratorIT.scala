@@ -112,7 +112,7 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
     val result: Future[ContainerId] =
       for {
         _ <- createApplication(application)
-        result <- downApplication(ContainerId(application.id))
+        result <- downApplication(ContainerId(application.id), None)
       } yield result
 
     Await.result(result, timeout) shouldBe an[ContainerId]
@@ -123,7 +123,7 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
 
     val application = ContainerId(id = "this-id-is-a-fake")
 
-    an[ResponseException] should be thrownBy Await.result(downApplication(application), timeout)
+    an[ResponseException] should be thrownBy Await.result(downApplication(application, None), timeout)
   }
 
 }

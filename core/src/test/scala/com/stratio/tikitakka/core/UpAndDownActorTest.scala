@@ -56,7 +56,7 @@ with ShouldMatchers {
 
       val upAndDownActor = system.actorOf(UpAndDownActor.props(service))
 
-      upAndDownActor ! DownServiceRequest(ContainerId(service.validBuild.id))
+      upAndDownActor ! DownServiceRequest(ContainerId(service.validBuild.id), None)
       expectMsg(DownServiceResponse(ContainerId(service.validBuild.id)))
     }
 
@@ -64,7 +64,7 @@ with ShouldMatchers {
 
       val upAndDownActor = system.actorOf(UpAndDownActor.props(service))
 
-      upAndDownActor ! DownServiceRequest(ContainerId(service.invalidBuild.id))
+      upAndDownActor ! DownServiceRequest(ContainerId(service.invalidBuild.id), None)
       expectMsg(DownServiceFails(ContainerId(service.invalidBuild.id), "Error when down"))
     }
   }

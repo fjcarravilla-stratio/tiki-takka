@@ -25,6 +25,6 @@ trait UpAndDownComponent {
 
   def upApplication(application: CreateApp, ssoToken: Option[HttpCookie]): Future[ContainerId]
 
-  def downApplication(application: ContainerId): Future[ContainerId]
+  def downApplication(application: ContainerId, ssoToken: Option[HttpCookie]): Future[ContainerId]
 
 }

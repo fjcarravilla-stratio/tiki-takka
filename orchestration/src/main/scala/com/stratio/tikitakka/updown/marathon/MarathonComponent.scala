@@ -55,8 +55,8 @@ trait MarathonComponent extends UpAndDownComponent with HttpRequestUtils with Lo
       }
   }
 
-  override def downApplication(application: ContainerId): Future[ContainerId] =
-    doRequest[MarathonDeleteInfo](uri, downPath(application.id), downComponentMethod)
+  override def downApplication(application: ContainerId, ssoToken: Option[HttpCookie]): Future[ContainerId] =
+    doRequest[MarathonDeleteInfo](uri, downPath(application.id), downComponentMethod, None, ssoToken.map(List(_)).getOrElse(Seq.empty))
       .recover {
         case e: Exception => throw ResponseException("Error when down an application", e)
       }
