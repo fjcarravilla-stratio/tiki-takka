@@ -20,23 +20,29 @@ import play.api.libs.json.{JsValue, Json, Reads, Writes}
 
 trait Container
 
-case class CreateApp(id: String,
-                     cpus: Double,
-                     mem: Int,
-                     instances: Option[Int] = None,
-                     user: Option[String] = None,
-                     args: Option[List[String]] = None,
-                     env: Option[Map[String, JsValue]] = None,
-                     container: ContainerInfo,
-                     cmd: Option[String] = None,
-                     portDefinitions: Option[Seq[PortDefinition]] = None,
-                     requirePorts: Option[Boolean] = None,
-                     healthChecks: Option[Seq[HealthCheck]] = None,
-                     labels: Map[String, String] = Map.empty[String, String],
-                     ports: Option[Seq[Int]] = None,
-                     constraints: Option[Seq[Seq[String]]] = None,
-                     ipAddress: Option[IpAddress] = None,
-                     secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]]
+case class CreateApp(
+                      id: String,
+                      cpus: Double,
+                      mem: Int,
+                      disk: Int,
+                      instances: Option[Int] = None,
+                      user: Option[String] = None,
+                      args: Option[List[String]] = None,
+                      env: Option[Map[String, JsValue]] = None,
+                      container: ContainerInfo,
+                      cmd: Option[String] = None,
+                      portDefinitions: Option[Seq[PortDefinition]] = None,
+                      requirePorts: Option[Boolean] = None,
+                      healthChecks: Option[Seq[HealthCheck]] = None,
+                      labels: Map[String, String] = Map.empty[String, String],
+                      ports: Option[Seq[Int]] = None,
+                      constraints: Option[Seq[Seq[String]]] = None,
+                      ipAddress: Option[IpAddress] = None,
+                      secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]],
+                      backoffSeconds: Option[Int] = None,
+                      backoffFactor: Option[Double] = None,
+                      upgradeStrategy: Option[Map[String, Int]] = None,
+                      acceptedResourceRoles: Option[Seq[String]] = None
                     ) extends Container
 
 case class ContainerId(id: String)

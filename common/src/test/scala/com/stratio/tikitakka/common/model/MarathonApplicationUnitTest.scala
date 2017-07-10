@@ -33,6 +33,7 @@ class MarathonApplicationUnitTest extends WordSpec with ShouldMatchers {
           id = "andId",
           cpus = 0.2,
           mem = 256,
+          disk = 1,
           instances = Option(2),
           env = Some(Map()),
           container = MarathonContainer(Docker("containerId")),
@@ -59,6 +60,7 @@ class MarathonApplicationUnitTest extends WordSpec with ShouldMatchers {
           id = "app1",
           cpus = 0.2,
           mem = 100,
+          disk = 1,
           instances = Option(1),
           env = Option(Map("foo" -> JsString("var"), "APPROLE" -> JsObject(Map("secret" -> JsString("role"))))),
           container =
@@ -79,6 +81,9 @@ class MarathonApplicationUnitTest extends WordSpec with ShouldMatchers {
           ports= Option(Seq(0)),
           constraints = Some(Seq(Seq("constraint"))),
           secrets = Map("role" -> Map("foo" -> "var")),
+          backoffSeconds  = Option(1),
+          backoffFactor  = Option(1.15),
+          upgradeStrategy = Option(Map("minimumHealthCapacity" -> 1, "maximumOverCapacity" -> 1)),
           ipAddress = Option(IpAddress(
             Option("some_network"),
             Option(DiscoveryInfo(Seq(PortAddressDefinition(0, "some_port", "tcp"))))))

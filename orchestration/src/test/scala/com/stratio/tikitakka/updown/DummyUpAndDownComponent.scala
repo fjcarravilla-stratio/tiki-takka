@@ -33,6 +33,7 @@ trait DummyUpAndDownComponent extends UpAndDownComponent {
       id = "validBuild",
       cpus = 0.2,
       mem = 256,
+      disk = 0,
       instances = Option(2),
       container = ContainerInfo(DockerContainerInfo("containerId")),
       labels = Map.empty[String, String])
@@ -42,6 +43,7 @@ trait DummyUpAndDownComponent extends UpAndDownComponent {
       id = "invalidBuild",
       cpus = 0.2,
       mem = 256,
+      disk = 0,
       instances = Option(2),
       container = ContainerInfo(DockerContainerInfo("containerId")),
       labels = Map.empty[String, String])

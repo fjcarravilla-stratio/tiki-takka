@@ -13,7 +13,7 @@
     "instances": 1,
     "cpus": 0.2,
     "mem": 100,
-    "disk": 0,
+    "disk": 1,
     "gpus": 0,
     "executor": "",
     "constraints": [["constraint"]],

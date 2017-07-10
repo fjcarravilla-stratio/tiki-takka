@@ -24,6 +24,7 @@ import com.stratio.tikitakka.common.model._
 case class MarathonApplication(id: String,
                                cpus: Double,
                                mem: Int,
+                               disk: Int,
                                instances: Option[Int] = None,
                                user: Option[String] = None,
                                args: Option[List[String]] = None,
@@ -37,7 +38,11 @@ case class MarathonApplication(id: String,
                                ports: Option[Seq[Int]] = None,
                                constraints: Option[Seq[Seq[String]]] = None,
                                ipAddress: Option[IpAddress] = None,
-                               secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]]
+                               secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]],
+                               backoffSeconds: Option[Int] = None,
+                               backoffFactor: Option[Double] = None,
+                               upgradeStrategy: Option[Map[String, Int]] = None,
+                               acceptedResourceRoles: Option[Seq[String]] = None
                               ) extends Container {
 }
 
@@ -48,6 +53,7 @@ object MarathonApplication {
       id = buildApp.id,
       cpus = buildApp.cpus,
       mem = buildApp.mem,
+      disk = buildApp.disk,
       instances = buildApp.instances,
       user = buildApp.user,
       args = buildApp.args,
@@ -100,12 +106,17 @@ object MarathonApplication {
       ports = buildApp.ports,
       constraints = buildApp.constraints,
       ipAddress = buildApp.ipAddress,
-      secrets = buildApp.secrets
+      secrets = buildApp.secrets,
+      backoffSeconds = buildApp.backoffSeconds,
+      backoffFactor = buildApp.backoffFactor,
+      upgradeStrategy = buildApp.upgradeStrategy,
+      acceptedResourceRoles = buildApp.acceptedResourceRoles
     )
 
   def fromJson(id: String,
                cpus: Double,
                mem: Int,
+               disk: Int,
                instances: Option[Int],
                user: Option[String],
                args: Option[List[String]],
@@ -119,12 +130,17 @@ object MarathonApplication {
                ports: Option[Seq[Int]],
                constraints: Option[Seq[Seq[String]]],
                ipAddress: Option[IpAddress] = None,
-               secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]]
+               secrets: Map[String, Map[String, String]] = Map.empty[String, Map[String, String]],
+               backoffSeconds: Option[Int] = None,
+               backoffFactor: Option[Double] = None,
+               upgradeStrategy: Option[Map[String, Int]] = None,
+               acceptedResourceRoles: Option[Seq[String]] = None
               ) =
     MarathonApplication(
       id = id.replaceFirst("^/", ""),
       cpus = cpus,
       mem = mem,
+      disk = disk,
       instances = instances,
       user = user,
       args = args,
@@ -138,13 +154,18 @@ object MarathonApplication {
       ports = ports,
       constraints = constraints,
       ipAddress = ipAddress,
-      secrets = secrets
+      secrets = secrets,
+      backoffSeconds = backoffSeconds,
+      backoffFactor = backoffFactor,
+      upgradeStrategy = upgradeStrategy,
+      acceptedResourceRoles = acceptedResourceRoles
     )
 
   // Literals
   val idLiteral = "id"
   val cpusLiteral = "cpus"
   val memLiteral = "mem"
+  val diskLiteral = "disk"
   val instancesLiteral = "instances"
   val userLiteral = "user"
   val argsLiteral = "args"
@@ -159,6 +180,10 @@ object MarathonApplication {
   val constraintsLiteral = "constraints"
   val ipAddressLiteral = "ipAddress"
   val secretsLiteral = "secrets"
+  val backoffSecondsLiteral = "backoffSeconds"
+  val backoffFactorLiteral = "backoffFactor"
+  val upgradeStrategyLiteral = "upgradeStrategy"
+  val acceptedResourceRolesLiteral = "acceptedResourceRoles"
 
   //Fixed Values
   val TcpValue = "tcp"
@@ -169,6 +194,7 @@ object MarathonApplication {
     (__ \ idLiteral).read[String] and
       (__ \ cpusLiteral).read[Double] and
       (__ \ memLiteral).read[Int] and
+      (__ \ diskLiteral).read[Int] and
       (__ \ instancesLiteral).readNullable[Int] and
       (__ \ userLiteral).readNullable[String] and
       (__ \ argsLiteral).readNullable[List[String]] and
@@ -182,7 +208,11 @@ object MarathonApplication {
       (__ \ portsLiteral).readNullable[Seq[Int]] and
       (__ \ constraintsLiteral).readNullable[Seq[Seq[String]]] and
       (__ \ ipAddressLiteral).readNullable[IpAddress] and
-      (__ \ secretsLiteral).read[Map[String, Map[String, String]]]
+      (__ \ secretsLiteral).read[Map[String, Map[String, String]]] and
+      (__ \ backoffSecondsLiteral).readNullable[Int] and
+      (__ \ backoffFactorLiteral).readNullable[Double] and
+      (__ \ upgradeStrategyLiteral).readNullable[Map[String, Int]] and
+      (__ \ acceptedResourceRolesLiteral).readNullable[Seq[String]]
     ) (MarathonApplication.fromJson _)
 }
 
