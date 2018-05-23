@@ -1,4 +1,4 @@
-@Library('libpipelines@branch-0.3') _
+@Library('libpipelines@master') _
 
 hose {
     EMAIL = 'governance'

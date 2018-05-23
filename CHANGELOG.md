@@ -2,6 +2,7 @@
 
 ## 0.4.0 (upcoming)
 
+* Upgrading the jenkins pipeline
 * Upgrading the parent pom to 0.10.0
 * PortMapping -> hostPort changed to Option
 * Added ipAddress parameters in marathon models
