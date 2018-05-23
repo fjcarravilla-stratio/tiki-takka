@@ -68,7 +68,7 @@ class MarathonApplicationUnitTest extends WordSpec with ShouldMatchers {
               docker = Docker(
                 image = "centos:7",
                 network = "BRIDGE",
-                portMappings = Option(Seq(DockerPortMapping(12, 21)))
+                portMappings = Option(Seq(DockerPortMapping(Some(12), 21)))
               )
             ),
           portDefinitions =

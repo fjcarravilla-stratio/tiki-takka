@@ -91,7 +91,7 @@ object Volume {
   implicit val reads: Reads[Volume] = Json.reads[Volume]
 }
 
-case class PortMapping(hostPort: Int,
+case class PortMapping(hostPort: Option[Int] = None,
                        containerPort: Int,
                        servicePort: Option[Int] = None,
                        protocol: Option[String] = None,

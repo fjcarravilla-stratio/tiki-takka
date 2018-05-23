@@ -264,7 +264,7 @@ object MarathonVolume {
   implicit val reads: Reads[MarathonVolume] = Json.reads[MarathonVolume]
 }
 
-case class DockerPortMapping(hostPort: Int,
+case class DockerPortMapping(hostPort: Option[Int] = None,
                              containerPort: Int,
                              servicePort: Option[Int] = None,
                              protocol: String = MarathonApplication.TcpValue,

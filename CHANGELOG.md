@@ -2,6 +2,8 @@
 
 ## 0.4.0 (upcoming)
 
+* Upgrading the parent pom to 0.10.0
+* PortMapping -> hostPort changed to Option
 * Added ipAddress parameters in marathon models
 
 ## 0.3.0 (April 26, 2017)
