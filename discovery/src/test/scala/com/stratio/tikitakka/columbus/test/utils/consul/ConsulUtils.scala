@@ -75,7 +75,7 @@ trait ConsulUtils extends LogUtils {
   }
 
   private def createRequest(uri: String, resource: String, method: HttpMethod, body: Option[String]): HttpRequest = {
-    HttpRequest(uri = s"$uri/$resource", method = method,
-      entity = body.map(body => HttpEntity(MediaTypes.`application/json`, body)).getOrElse(""))
+    HttpRequest(uri = Uri.from(scheme = "http", host = uri.split(":")(0), port = uri.split(":")(1).toInt, path = s"/$resource"),
+      method = method, entity = body.map(body => HttpEntity(MediaTypes.`application/json`, body)).getOrElse(""))
   }
 }

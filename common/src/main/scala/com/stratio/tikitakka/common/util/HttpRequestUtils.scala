@@ -53,7 +53,8 @@ trait HttpRequestUtils extends LogUtils {
   }
 
   private def createRequest(uri: String, resource: String, method: HttpMethod, body: Option[JsValue], cookies: Seq[HttpCookie]): HttpRequest =
-    HttpRequest(uri = s"$uri/$resource", method = method, entity = createRequestEntityJson(body), headers = createHeaders(cookies))
+    HttpRequest(uri = Uri.from(scheme = "http", host = uri.split(":")(0), port = uri.split(":")(1).toInt, path = s"/$resource"),
+      method = method, entity = createRequestEntityJson(body), headers = createHeaders(cookies))
 
   def createRequestEntityJson(body: Option[JsValue]): RequestEntity = body match {
     case Some(jsBody) =>
