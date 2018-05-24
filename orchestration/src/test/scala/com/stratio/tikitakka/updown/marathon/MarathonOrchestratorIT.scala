@@ -70,7 +70,7 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
     }
   }
   "thrown an exception when the endpoint is not correctly defined" in new MarathonComponent with ActorTestSystem {
-    override lazy val uri = "ocalhost:8080"
+    override lazy val uri = "http://ocalhost:8080"
     val application =
       CreateApp(
         id = "app1",
@@ -122,7 +122,7 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
   }
 
   "thrown an exception when the application doesn't exist" in new MarathonComponent with ActorTestSystem {
-    override lazy val uri = "localhost:8080"
+    override lazy val uri = "http://localhost:8080"
 
     val application = ContainerId(id = "this-id-is-a-fake")
 
