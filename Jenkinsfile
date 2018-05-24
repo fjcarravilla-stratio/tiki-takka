@@ -57,8 +57,8 @@ hose {
     ]
 
     ITPARAMETERS = """
-        | -Dconsul.uri="%%CONSUL:8500"
-        | -Dmarathon.uri="%%MARATHON:8080"
+        | -Dconsul.uri=%%CONSUL:8500
+        | -Dmarathon.uri=%%MARATHON:8080
         | """
 
     DEV = {
