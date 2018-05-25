@@ -36,5 +36,4 @@ object DiscoveryGeneratorUtils extends GeneratorUtils {
     services <- Gen.listOfN(size, genServiceInfo)
     tags = services.flatMap(_.tags)
   } yield DiscoveryAppInfo(id, name, services, tags)
-
 }

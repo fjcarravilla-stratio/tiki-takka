@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>com.stratio.tikitakka</groupId>
     <artifactId>parent</artifactId>
     <version>0.4.0-RC4-SNAPSHOT</version>

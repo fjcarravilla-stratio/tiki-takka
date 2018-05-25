@@ -31,7 +31,7 @@ import org.scalatest.junit.JUnitRunner
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-@RunWith(classOf[JUnitRunner])
+//@RunWith(classOf[JUnitRunner])
 class ConsulComponentIT extends WordSpec with ShouldMatchers with BeforeAndAfterAll with ConsulUtils {
 
   implicit val system = ActorSystem("Actor-Test-System")

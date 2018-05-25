@@ -1,4 +1,4 @@
-@Library('libpipelines@branch-0.3') _
+@Library('libpipelines@master') _
 
 hose {
     EMAIL = 'governance'
@@ -57,8 +57,8 @@ hose {
     ]
 
     ITPARAMETERS = """
-        | -Dconsul.uri="http://%%CONSUL:8500"
-        | -Dmarathon.uri="http://%%MARATHON:8080"
+        | -Dconsul.uri=%%CONSUL:8500
+        | -Dmarathon.uri=%%MARATHON:8080
         | """
 
     DEV = {

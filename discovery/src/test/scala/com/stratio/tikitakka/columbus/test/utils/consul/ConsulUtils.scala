@@ -74,8 +74,34 @@ trait ConsulUtils extends LogUtils {
     httpSystem.singleRequest(request)
   }
 
-  private def createRequest(uri: String, resource: String, method: HttpMethod, body: Option[String]): HttpRequest = {
-    HttpRequest(uri = s"$uri/$resource", method = method,
+  private def createRequest(url: String, resource: String, method: HttpMethod, body: Option[String]): HttpRequest = {
+    val (host, scheme, port) = getUriParts(url) match {
+      case Some((h, s, p)) => (h, s, p)
+    }
+
+    val uri = Uri.from(host = host, path = s"/$resource")
+    val uriCompleted = (port match {
+      case Some(p) => uri.withPort(p)
+      case None => uri
+    }).withScheme(scheme match{
+      case Some(s) => s
+      case None => "http"
+    })
+
+    HttpRequest(uri = uriCompleted, method = method,
       entity = body.map(body => HttpEntity(MediaTypes.`application/json`, body)).getOrElse(""))
   }
+
+  val uriPattern = "^((https?):\\/\\/)?([^:]+)(:(\\d+)){0,1}".r
+  def getUriParts(uri: String): Option[(String, Option[String], Option[Int])] = uriPattern.findFirstMatchIn(uri).map(s => (
+    s.group(3),
+    s.group(2) match {
+      case null => None
+      case value => Some(value)
+    },
+    s.group(5) match {
+      case null => None
+      case value => Some(value.toInt)
+    }
+  ))
 }
