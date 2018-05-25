@@ -53,15 +53,18 @@ trait HttpRequestUtils extends LogUtils {
   }
 
   private def createRequest(url: String, resource: String, method: HttpMethod, body: Option[JsValue], cookies: Seq[HttpCookie]): HttpRequest = {
-    val (host, port) = getUriParts(url) match {
-      case Some((h, p)) => (h,p)
+    val (host, scheme, port) = getUriParts(url) match {
+      case Some((h, s, p)) => (h, s, p)
     }
 
-    val uri = Uri.from(scheme = "http", host = host, path = s"/$resource")
-    val uriCompleted = port match {
+    val uri = Uri.from(host = host, path = s"/$resource")
+    val uriCompleted = (port match {
       case Some(p) => uri.withPort(p)
       case None => uri
-    }
+    }).withScheme(scheme match{
+      case Some(s) => s
+      case None => "http"
+    })
 
     HttpRequest(uri = uriCompleted, method = method, entity = createRequestEntityJson(body), headers = createHeaders(cookies))
   }
@@ -76,10 +79,17 @@ trait HttpRequestUtils extends LogUtils {
   def createHeaders(cookies: Seq[HttpCookie]): List[HttpHeader] =
     cookies.map(c => headers.Cookie(c.getName, c.getValue)).toList
 
-  val uriPattern = "^(https?:\\/\\/)?([^:]+)(:(\\d+)){0,1}".r
-  def getUriParts(uri: String): Option[(String, Option[Int])] = uriPattern.findFirstMatchIn(uri).map(s => (s.group(2), s.group(4) match {
-    case null => None
-    case value => Some(value.toInt)
-  }))
+  val uriPattern = "^((https?):\\/\\/)?([^:]+)(:(\\d+)){0,1}".r
+  def getUriParts(uri: String): Option[(String, Option[String], Option[Int])] = uriPattern.findFirstMatchIn(uri).map(s => (
+    s.group(3),
+    s.group(2) match {
+      case null => None
+      case value => Some(value)
+    },
+    s.group(5) match {
+      case null => None
+      case value => Some(value.toInt)
+    }
+  ))
 
 }
