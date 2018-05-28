@@ -31,7 +31,7 @@ import org.scalatest.junit.JUnitRunner
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-//@RunWith(classOf[JUnitRunner])
+@RunWith(classOf[JUnitRunner])
 class ConsulComponentIT extends WordSpec with ShouldMatchers with BeforeAndAfterAll with ConsulUtils {
 
   implicit val system = ActorSystem("Actor-Test-System")
@@ -63,7 +63,7 @@ class ConsulComponentIT extends WordSpec with ShouldMatchers with BeforeAndAfter
 
     implicit val system: ActorSystem = ActorSystem("Actor-Test-System")
     implicit val actorMaterializer: ActorMaterializer = ActorMaterializer(ActorMaterializerSettings(system))
-    val timeout = 3 seconds
+    val timeout = 180 seconds
 
   }
 

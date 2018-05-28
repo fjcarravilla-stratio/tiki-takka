@@ -35,7 +35,7 @@ class MarathonOrchestratorIT extends WordSpec with ShouldMatchers {
   trait ActorTestSystem {
     implicit val system = ActorSystem("Actor-Test-System")
     implicit val actorMaterializer = ActorMaterializer(ActorMaterializerSettings(system))
-    implicit val timeout = 10 seconds
+    implicit val timeout = 180 seconds
 
   }
 
